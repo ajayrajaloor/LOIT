@@ -1,20 +1,37 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response} from 'express';
 import {connect} from './config/db'
+import logger from 'morgan'
 import dotenv from 'dotenv';
+import cors from 'cors'
 
-dotenv.config();
+
+
+// importing Routes
+import userRouter from './routes/userRouter'
+
+
+dotenv.config();  
+
+
+const app: Express = express();
+const port  = process.env.PORT;
+const corsOptions = {
+  origin: "http://localhost:3000",
+};
+
+
+// Middleware for JSON parsing
+app.use(cors(corsOptions));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(logger("dev"))
 
 connect() //connect to the database
 
-const app: Express = express();
-const port = process.env.PORT;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
-});
+app.use('/api/user',userRouter);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
 
-//lKeHMta4JLpOWsDN
