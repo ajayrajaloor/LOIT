@@ -8,7 +8,7 @@ import cors from 'cors'
 
 // importing Routes
 import userRouter from './routes/userRouter'
-
+import postRouter from './routes/postRouter'
 
 dotenv.config();  
 
@@ -30,6 +30,7 @@ connect() //connect to the database
 
 
 app.use('/api/user',userRouter);
+app.use('/api/post',postRouter)
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
